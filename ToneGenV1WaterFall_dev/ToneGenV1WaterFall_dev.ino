@@ -20,15 +20,32 @@ int enc2 = 0.8;
 
 
 // Audio Shiled Setup
-AudioSynthWaveform       waveform1;          //xy=519,342
-AudioEffectEnvelope      envelopeA;      //xy=683,396
-AudioOutputI2S           lineout;           //xy=867,333
+// AudioSynthWaveform       waveform1;          //xy=519,342
+// AudioEffectEnvelope      envelopeA;      //xy=683,396
+// AudioOutputI2S           lineout;           //xy=867,333
+// AudioConnection          patchCord1(waveform1, envelopeA);
+// AudioConnection          patchCord2(envelopeA, 0, lineout, 1);
+// AudioConnection          patchCord3(envelopeA, 0, lineout, 0);
+// AudioControlSGTL5000     sgtl5000_1;     //xy=666,488
+
+
+
+// GUItool: begin automatically generated code
+AudioSynthWaveform       waveform1;      //xy=524,391
+AudioInputI2S            i2s1;           //xy=528,249
+AudioEffectEnvelope      envelopeA;      //xy=892,392
+AudioMixer4              mixer1;         //xy=913,160
+AudioMixer4              mixer2;         //xy=915,258
+AudioOutputI2S           lineout;        //xy=1244,392
 AudioConnection          patchCord1(waveform1, envelopeA);
-AudioConnection          patchCord2(envelopeA, 0, lineout, 1);
-AudioConnection          patchCord3(envelopeA, 0, lineout, 0);
-AudioControlSGTL5000     sgtl5000_1;     //xy=666,488
-
-
+AudioConnection          patchCord2(i2s1, 0, mixer1, 0);
+AudioConnection          patchCord3(i2s1, 1, mixer2, 0);
+AudioConnection          patchCord4(envelopeA, 0, mixer2, 3);
+AudioConnection          patchCord5(envelopeA, 0, mixer1, 3);
+AudioConnection          patchCord6(mixer1, 0, lineout, 0);
+AudioConnection          patchCord7(mixer2, 0, lineout, 1);
+AudioControlSGTL5000     sgtl5000_1;     //xy=875,484
+// GUItool: end automatically generated code
 
 
 
@@ -40,6 +57,7 @@ int   attackParam;
 int   decayParam;
 float sustainParam;
 int   releaseParam;
+const int myInput = AUDIO_INPUT_LINEIN;
   
 // Variable to store bool tone on or off 
 bool ToneOn = false;
@@ -104,6 +122,7 @@ void setup() {
     // Audio connections require memory to work.  For more
   // detailed information, see the MemoryAndCpuUsage example
   AudioMemory(10);
+  sgtl5000_1.inputSelect(myInput);
   attackParam = 1800;
   decayParam = 400;
   sustainParam = 1.0;
@@ -123,6 +142,12 @@ void setup() {
   // configure both waveforms for 440 Hz and maximum amplitude
   waveform1.frequency(0);
   waveform1.amplitude(0);
+  //Adjust Mixer Set Audio Input to Zero and Tone to full
+  mixer1.gain(0, 0);
+  mixer1.gain(3, 1.0);
+  mixer2.gain(0, 0);
+  mixer2.gain(3, 1.0);
+
   
   
   
@@ -481,15 +506,17 @@ encoders[1].newSettings(0,10,5,currentEncoderState);
 
 }
 
-
+//Audio Inputs
 void menu4(){
 
 Serial.println("Main One");
 delay(2000);
+//Set the mixer to Stop all Wav tones and only pass though Audio
+mixer1.gain(0, 1.0);
+mixer1.gain(3, 0);
+mixer2.gain(0, 1.0);
+mixer2.gain(3, 0);
 
-waveform1.frequency(enc1);
-waveform1.amplitude(0.8);
-envelopeA.noteOn();
 
 
 
@@ -502,6 +529,11 @@ envelopeA.noteOn();
       if (BUTTONState == LOW){
         entered = 0;
         menuId = 0;
+        //Adjust Mixer Set Audio Input to Zero and Tone to full
+        mixer1.gain(0, 0);
+        mixer1.gain(3, 1.0);
+        mixer2.gain(0, 0);
+        mixer2.gain(3, 1.0);
         Serial.println("Entered Menu Value");
         Serial.println(menuId);
         delay(1000);
