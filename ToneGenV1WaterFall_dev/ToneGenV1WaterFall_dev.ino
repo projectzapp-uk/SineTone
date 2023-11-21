@@ -146,6 +146,9 @@ void loop() {
     case 3:
       menu3();
       break;
+    case 4:
+      menu4();
+      break;
       
   }
 
@@ -478,14 +481,47 @@ encoders[1].newSettings(0,10,5,currentEncoderState);
 
 }
 
+
+void menu4(){
+
+Serial.println("Main One");
+delay(2000);
+
+waveform1.frequency(enc1);
+waveform1.amplitude(0.8);
+envelopeA.noteOn();
+
+
+
+ //If main menu stay there until somthing is selected
+  while (entered == 4){
+  //We are in main Menu, use encoder A to select the submenu
+  displaymenu(4, selected);
+  
+    BUTTONState = digitalRead(1);
+      if (BUTTONState == LOW){
+        entered = 0;
+        menuId = 0;
+        Serial.println("Entered Menu Value");
+        Serial.println(menuId);
+        delay(1000);
+        
+                        
+            }
+
+  }
+
+
+}
 void displaymenu(int entered, int selected ) {
 
 
-  const char *options[4] = {
+  const char *options[5] = {
     "",
     "WaterFall",
     "Continous",
-    "Pulse"
+    "Pulse",
+    "Audio Input"
   };
 
   if (entered == 0) {
@@ -495,7 +531,7 @@ void displaymenu(int entered, int selected ) {
     display.setCursor(20, 0);
    
     
-    for (int i = 0; i < 4; i++) {
+    for (int i = 0; i < 5; i++) {
       if (i == selected) {
         display.setTextColor(SSD1306_BLACK, SSD1306_WHITE);
         display.println(options[i]);
@@ -559,6 +595,14 @@ void displaymenu(int entered, int selected ) {
     display.setTextSize(1);
     display.print("Cycle: ");
     display.print(enc2);
+  } 
+    else if (entered == 4) {
+    display.clearDisplay();
+    display.setTextSize(1);
+    display.setTextColor(SSD1306_WHITE);
+    display.setCursor(0, 0);
+    display.println(F("Audio Input"));
+ 
   } 
 
   display.display();
