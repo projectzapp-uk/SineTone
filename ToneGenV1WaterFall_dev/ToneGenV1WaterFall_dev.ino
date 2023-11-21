@@ -103,19 +103,19 @@ void setup() {
   NewEncoder::EncoderState state;
   for (uint8_t index = 0; index < numEncoders; index++) {
     if (!encoders[index].begin()) {
-      Serial.print("Encoder: ");
-      Serial.print(index);
-      Serial.println(" Failed to Start. Check pin assignments and available interrupts. Aborting.");
+      // Serial.print("Encoder: ");
+      // Serial.print(index);
+      // Serial.println(" Failed to Start. Check pin assignments and available interrupts. Aborting.");
       while (1) {
         yield();
       }
     } else {
       encoders[index].getState(state);
       prevEncoderValue[index] = state.currentValue;
-      Serial.print("Encoder: ");
-      Serial.print(index);
-      Serial.print(" Successfully Started at value = ");
-      Serial.println(state.currentValue);
+      // Serial.print("Encoder: ");
+      // Serial.print(index);
+      // Serial.print(" Successfully Started at value = ");
+      // Serial.println(state.currentValue);
       
     }
   }
@@ -180,7 +180,7 @@ void loop() {
 }
 
 void mainMenu(){
- Serial.println("We are in Main Menu");
+
  displaymenu(entered, selected);
  //If main menu stay there until somthing is selected
   int16_t currentValue;
@@ -192,16 +192,14 @@ void mainMenu(){
   //We are in main Menu, use encoder A to select the submenu
     for (uint8_t index = 0; index < numEncoders; index++) {
     if (encoders[index].getState(currentEncoderState)) {
-      Serial.print("Encoder ");
-      Serial.print(index);
-      Serial.print(": ");
+      // Serial.print("Encoder ");
+      // Serial.print(index);
+      // Serial.print(": ");
       currentValue = currentEncoderState.currentValue;
       if (currentValue != prevEncoderValue[index]) {
-        Serial.println(currentValue);
+
         //Set Speed
         if (index == 0){
-           Serial.println("We are in Main Menu, entered is set to 1");
-           Serial.println(currentValue);
            menuId = currentValue;
            displaymenu(entered, currentValue);
           }
@@ -211,10 +209,7 @@ void mainMenu(){
           BUTTONState = digitalRead(1);
           if (BUTTONState == LOW){
               entered = menuId;
-              Serial.println("Entered Menu Value");
-              Serial.println(menuId);
               envelopeA.noteOff();
-              
                
             }
   }
@@ -222,7 +217,7 @@ void mainMenu(){
 
 // WaterFall Patturn
 void menu1(){
-Serial.println("Main One");
+
 int16_t currentValue;
 NewEncoder::EncoderState currentEncoderState;
 //reset start value on encoder
@@ -268,32 +263,26 @@ envelopeA.release(releaseParam);  // max 11880 mS
   //encoders[0].newSettings(0,10,0,currentEncoderState);
   for (uint8_t index = 0; index < numEncoders; index++) {
     if (encoders[index].getState(currentEncoderState)) {
-      Serial.print("Encoder ");
-      Serial.print(index);
-      Serial.print(": ");
+
       currentValue = currentEncoderState.currentValue;
       if (currentValue != prevEncoderValue[index]) {
         Serial.println(currentValue);
         //Set Speed
         if (index == 0){
-           Serial.println("Menu 1: Freq");
-           Serial.println(currentValue);
-           menuId = currentValue;
+
            int mappedVal = map(currentValue,0,20,0,2000);
            enc1 = mappedVal;
            waveform1.frequency(mappedVal);
-           
-           Serial.println(mappedVal);
+
 
           }
         if (index ==1){
           Serial.println("Menu 1: AMP");
           float mappedVal = map(currentValue,0,10,0,100);
-          Serial.print("curent");
-          Serial.println(currentValue);
-          Serial.println(mappedVal);
+          // Serial.print("curent");
+          // Serial.println(currentValue);
+          // Serial.println(mappedVal);
           enc2 = mappedVal;
-          Serial.println(enc2);
           delaytime = map(enc2,0,100,0,4000);
           attackParam = map(enc2,0,100,0,3600);
           decayParam = map(enc2,0,100,0,800);
@@ -303,14 +292,14 @@ envelopeA.release(releaseParam);  // max 11880 mS
           envelopeA.sustain(sustainParam);  // gain level from 0 to 1.0
           envelopeA.release(releaseParam);  // max 11880 mS
 
-          Serial.print("attack : ");
-          Serial.println(attackParam);
-          Serial.print("decayParam : ");
-          Serial.println(decayParam);
-          Serial.print("releaseParam : ");
-          Serial.println(releaseParam);
-          Serial.print("delaytime : ");
-          Serial.print(delaytime);
+          // Serial.print("attack : ");
+          // Serial.println(attackParam);
+          // Serial.print("decayParam : ");
+          // Serial.println(decayParam);
+          // Serial.print("releaseParam : ");
+          // Serial.println(releaseParam);
+          // Serial.print("delaytime : ");
+          // Serial.print(delaytime);
           }
          }
       }
@@ -320,8 +309,6 @@ envelopeA.release(releaseParam);  // max 11880 mS
               entered = 0;
               menuId = 0;
               envelopeA.noteOff();
-              Serial.println("Entered Menu Value");
-              Serial.println(menuId);
               delay(1000);
             }
   }
@@ -341,11 +328,6 @@ enc1 = 0;
 enc2 = 0;
 
 delay(1000);
- //Audio
-Serial.println("Update Audio values: ");
-Serial.print(enc1);
-Serial.print("  ");
-Serial.print(enc2);
 waveform1.frequency(enc1);
 waveform1.amplitude(0.8);
 
@@ -356,12 +338,9 @@ envelopeA.noteOn();
 
   for (uint8_t index = 0; index < numEncoders; index++) {
     if (encoders[index].getState(currentEncoderState)) {
-      Serial.print("Encoder ");
-      Serial.print(index);
-      Serial.print(": ");
       currentValue = currentEncoderState.currentValue;
       if (currentValue != prevEncoderValue[index]) {
-        Serial.println(currentValue);
+        
         //Set Speed
         if (index == 0){
            int mappedVal = map(currentValue,0,20,0,2000);
@@ -370,21 +349,22 @@ envelopeA.noteOn();
           }
           //Waveform types
            if (index == 1){
-             Serial.println(currentValue);
+             
              enc2 = currentValue;
+
              if (enc2 == 1){
                waveform1.begin(WAVEFORM_SQUARE);
                
                Serial.println("Square");
              } else if (enc2 == 2){
                waveform1.begin(WAVEFORM_SAWTOOTH);
-               Serial.println("Sawtooth");
+               
              } else if (enc2 == 3){
                waveform1.begin(WAVEFORM_TRIANGLE);
-               Serial.println("Triangle");
+               
              } else {
                waveform1.begin(WAVEFORM_SINE);
-               Serial.println("SINE");
+               
              }
             }
         
@@ -396,9 +376,6 @@ envelopeA.noteOn();
           if (BUTTONState == LOW){
               entered = 0;
               menuId = 0;
-              Serial.println("Entered Menu Value");
-              
-              Serial.println(menuId);
               delay(1000);
               envelopeA.noteOff();
                         
@@ -409,10 +386,10 @@ envelopeA.noteOn();
 
 }
 
-
+//Pulse Menu
 void menu3(){
 
-Serial.println("Main One");
+
 delay(2000);
 enc1 = 0;
 enc2 = 50;
@@ -447,8 +424,6 @@ encoders[1].newSettings(0,10,5,currentEncoderState);
     envelopeA.noteOn();
      while (!envelopeA.isSustain()){
        
-
-
      } 
      envelopeA.noteOff();
    
@@ -462,17 +437,11 @@ encoders[1].newSettings(0,10,5,currentEncoderState);
 
   for (uint8_t index = 0; index < numEncoders; index++) {
     if (encoders[index].getState(currentEncoderState)) {
-      Serial.print("Encoder ");
-      Serial.print(index);
-      Serial.print(": ");
       currentValue = currentEncoderState.currentValue;
       if (currentValue != prevEncoderValue[index]) {
         Serial.println(currentValue);
         //Set Speed
         if (index == 0){
-           Serial.println("Menu 1: Freq");
-           Serial.println(currentValue);
-           menuId = currentValue;
            int mappedVal = map(currentValue,0,20,0,2000);
            enc1 = mappedVal;
            waveform1.frequency(mappedVal);
@@ -494,8 +463,6 @@ encoders[1].newSettings(0,10,5,currentEncoderState);
           if (BUTTONState == LOW){
               entered = 0;
               menuId = 0;
-              Serial.println("Entered Menu Value");
-              Serial.println(menuId);
               delay(1000);
               envelopeA.noteOff();
                         
@@ -506,25 +473,50 @@ encoders[1].newSettings(0,10,5,currentEncoderState);
 
 }
 
-//Audio Inputs
+//Audio Inputs Last Menu Item
 void menu4(){
 
-Serial.println("Main One");
 delay(2000);
-//Set the mixer to Stop all Wav tones and only pass though Audio
-mixer1.gain(0, 1.0);
+//Set the mixer to set all gains to Zero.
+mixer1.gain(0, 0);
 mixer1.gain(3, 0);
-mixer2.gain(0, 1.0);
+mixer2.gain(0, 0);
 mixer2.gain(3, 0);
 
-
-
-
- //If main menu stay there until somthing is selected
+int delaytime = 1000;
+int16_t currentValue;
+NewEncoder::EncoderState currentEncoderState;
+//reset start value on encoder
+encoders[0].newSettings(0,10,0,currentEncoderState);
+encoders[1].newSettings(0,10,0,currentEncoderState);
+enc1 = 0;
+enc2 = 0;
   while (entered == 4){
-  //We are in main Menu, use encoder A to select the submenu
-  displaymenu(4, selected);
   
+  displaymenu(4, selected);
+
+  for (uint8_t index = 0; index < numEncoders; index++) {
+    if (encoders[index].getState(currentEncoderState)) {
+      currentValue = currentEncoderState.currentValue;
+      if (currentValue != prevEncoderValue[index]) {
+        Serial.println(currentValue);
+        //Set Volume on Channel A and B 0-10 = 0-100% = 0-1.0 MixGain
+        if (index == 0){
+           float mixvolume = currentValue*0.1;
+           mixer1.gain(0, mixvolume);
+           enc1 = currentValue*10;
+
+          }
+        if (index ==1){
+          float mixvolume = currentValue*0.1;
+          mixer2.gain(0, mixvolume/10);
+          enc2 = currentValue*10;
+
+          }
+         }
+      }
+    }
+  //Exist Buttons and Zero Mixer on Audio and reset to Waveform. 
     BUTTONState = digitalRead(1);
       if (BUTTONState == LOW){
         entered = 0;
@@ -537,8 +529,7 @@ mixer2.gain(3, 0);
         Serial.println("Entered Menu Value");
         Serial.println(menuId);
         delay(1000);
-        
-                        
+                  
             }
 
   }
@@ -629,11 +620,18 @@ void displaymenu(int entered, int selected ) {
     display.print(enc2);
   } 
     else if (entered == 4) {
-    display.clearDisplay();
+     display.clearDisplay();
     display.setTextSize(1);
     display.setTextColor(SSD1306_WHITE);
     display.setCursor(0, 0);
     display.println(F("Audio Input"));
+    display.setTextSize(1);
+    display.print("Channel A: ");
+    display.println(enc1);
+    display.setTextColor(SSD1306_WHITE);
+    display.setTextSize(1);
+    display.print("Channel B ");
+    display.println(enc2);
  
   } 
 
