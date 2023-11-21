@@ -240,9 +240,7 @@ envelopeA.release(releaseParam);  // max 11880 mS
 
   while (entered == 1){
   //Set time loop. defult is 50% at 2000ms
-  
-  
-  
+
   //waferfall. 
   unsigned long currentTime = millis();  // Get the current time in milliseconds.
   //Check if 0.5 seconds have passed since the last change.
@@ -292,14 +290,6 @@ envelopeA.release(releaseParam);  // max 11880 mS
           envelopeA.sustain(sustainParam);  // gain level from 0 to 1.0
           envelopeA.release(releaseParam);  // max 11880 mS
 
-          // Serial.print("attack : ");
-          // Serial.println(attackParam);
-          // Serial.print("decayParam : ");
-          // Serial.println(decayParam);
-          // Serial.print("releaseParam : ");
-          // Serial.println(releaseParam);
-          // Serial.print("delaytime : ");
-          // Serial.print(delaytime);
           }
          }
       }
@@ -551,10 +541,10 @@ void displaymenu(int entered, int selected ) {
     display.clearDisplay();
     display.setTextSize(1);
     display.setTextColor(SSD1306_WHITE);
-    display.setCursor(20, 0);
+    display.setCursor(0, 0);
    
     
-    for (int i = 0; i < 5; i++) {
+    for (int i = 1; i < 5; i++) {
       if (i == selected) {
         display.setTextColor(SSD1306_BLACK, SSD1306_WHITE);
         display.println(options[i]);
