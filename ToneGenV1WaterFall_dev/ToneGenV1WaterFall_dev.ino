@@ -45,12 +45,8 @@ AudioConnection          patchCord5(envelopeA, 0, mixer1, 3);
 AudioConnection          patchCord6(mixer1, 0, lineout, 0);
 AudioConnection          patchCord7(mixer2, 0, lineout, 1);
 AudioControlSGTL5000     sgtl5000_1;     //xy=875,484
-// GUItool: end automatically generated code
-
-
 
 int current_waveform=0;
-
 
 //Set envelope variables  
 int   attackParam;
@@ -63,7 +59,6 @@ const int myInput = AUDIO_INPUT_LINEIN;
 bool ToneOn = false;
 bool contious = false;
  
-
 //Encoder setup. Range 0-10
 NewEncoder encoders[] = {
   { 2, 3, 0, 20, 0, FULL_PULSE },
@@ -85,8 +80,6 @@ Adafruit_SSD1306 display(SCREEN_WIDTH, SCREEN_HEIGHT, &Wire, OLED_RESET);
 #define LOGO_HEIGHT   16
 #define LOGO_WIDTH    16
 
-
-
 void setup() {
   Serial.begin(9600);
   if (!display.begin(SSD1306_SWITCHCAPVCC, SCREEN_ADDRESS)) {
@@ -98,8 +91,7 @@ void setup() {
   display.drawPixel(10, 10, SSD1306_WHITE);
   display.display();
   delay(1000); // Pause for 2 seconds
-
-     //Setup Encoders
+  //Setup Encoders
   NewEncoder::EncoderState state;
   for (uint8_t index = 0; index < numEncoders; index++) {
     if (!encoders[index].begin()) {
@@ -134,12 +126,8 @@ void setup() {
   envelopeA.sustain(sustainParam);  // gain level from 0 to 1.0
   envelopeA.release(releaseParam);  // max 11880 mS
   AudioInterrupts();
-  // Comment these out if not using the audio adaptor board.
-  // This may wait forever if the SDA & SCL pins lack
-  // pullup resistors
   sgtl5000_1.enable();
-  sgtl5000_1.volume(0.8); // caution: very loud - use oscilloscope only!
-  // configure both waveforms for 440 Hz and maximum amplitude
+  sgtl5000_1.volume(0.8); 
   waveform1.frequency(0);
   waveform1.amplitude(0);
   //Adjust Mixer Set Audio Input to Zero and Tone to full
@@ -148,16 +136,10 @@ void setup() {
   mixer2.gain(0, 0);
   mixer2.gain(3, 1.0);
 
-  
-  
-  
-  
-
-
 }
 
 void loop() {
-  // put your main code here, to run repeatedly:
+  
   switch (menuId){
     case 0:
       mainMenu();
