@@ -1,6 +1,6 @@
-//Menu two Continous.  Diffrent wave form options
-void menu2(){
-Serial.println("Menu 2");
+//Set defult waveform, Sine is default. 
+void menu5(){
+Serial.println("Menu 5");
 int16_t currentValue;
 NewEncoder::EncoderState currentEncoderState;
 //reset start value on encoder
@@ -11,28 +11,26 @@ enc2 = 0;
 
 delay(1000);
 waveform1.frequency(enc1);
-waveform1.amplitude(0.8);
 
-envelopeA.noteOn();
 
- while (entered == 2){
-  displaymenu(2, selected);
+
+ while (entered == 5){
+  displaymenu(5, selected);
 
   for (uint8_t index = 0; index < numEncoders; index++) {
     if (encoders[index].getState(currentEncoderState)) {
       currentValue = currentEncoderState.currentValue;
       if (currentValue != prevEncoderValue[index]) {
         
-        //Set Speed
+        //Encoder A
         if (index == 0){
-           int mappedVal = map(currentValue,0,20,0,2000);
-           enc1 = mappedVal;
-           waveform1.frequency(enc1);
+           
           }
-          //Waveform types
+          //Waveform types Encoder B
            if (index == 1){
              
              enc2 = currentValue;
+             Serial.println(enc2);
 
              if (enc2 == 1){
                waveform1.begin(WAVEFORM_SQUARE);
@@ -41,19 +39,23 @@ envelopeA.noteOn();
              } else if (enc2 == 2){
                waveform1.begin(WAVEFORM_SAWTOOTH);
                
+               
              } else if (enc2 == 3){
                waveform1.begin(WAVEFORM_TRIANGLE);
+               
 
-     
              } 
              
                else if (enc2 == 4){
                
                waveform1.begin(WAVEFORM_ARBITRARY);
+               
                }
              
              else {
                waveform1.begin(WAVEFORM_SINE);
+               
+               Serial.println("sine");
                
              }
             }
@@ -62,15 +64,11 @@ envelopeA.noteOn();
       }
 
     }
-          BUTTONState = digitalRead(1);
+          BUTTONState = digitalRead(4);
           if (BUTTONState == LOW){
               entered = 0;
               menuId = 0;
               delay(1000);
-              
-              envelopeA.noteOff();
-              delay(1000);
-              waveform1.begin(WAVEFORM_SINE);
               
                         
             }

@@ -19,17 +19,6 @@ int enc1 = 0;
 int enc2 = 0.8; 
 
 
-// Audio Shiled Setup
-// AudioSynthWaveform       waveform1;          //xy=519,342
-// AudioEffectEnvelope      envelopeA;      //xy=683,396
-// AudioOutputI2S           lineout;           //xy=867,333
-// AudioConnection          patchCord1(waveform1, envelopeA);
-// AudioConnection          patchCord2(envelopeA, 0, lineout, 1);
-// AudioConnection          patchCord3(envelopeA, 0, lineout, 0);
-// AudioControlSGTL5000     sgtl5000_1;     //xy=666,488
-
-
-
 // GUItool: begin automatically generated code
 AudioSynthWaveform       waveform1;      //xy=524,391
 AudioInputI2S            i2s1;           //xy=528,249
@@ -46,7 +35,6 @@ AudioConnection          patchCord6(mixer1, 0, lineout, 0);
 AudioConnection          patchCord7(mixer2, 0, lineout, 1);
 AudioControlSGTL5000     sgtl5000_1;     //xy=875,484
 
-int current_waveform=0;
 
 //Set envelope variables  
 int   attackParam;
@@ -54,6 +42,9 @@ int   decayParam;
 float sustainParam;
 int   releaseParam;
 const int myInput = AUDIO_INPUT_LINEIN;
+
+
+extern const int16_t myWaveform[256];
   
 // Variable to store bool tone on or off 
 bool ToneOn = false;
@@ -69,6 +60,7 @@ NewEncoder encoders[] = {
 const uint8_t numEncoders = sizeof(encoders) / sizeof(encoders[0]);
 int16_t prevEncoderValue[numEncoders];
 int BUTTONState = 0; 
+int BUTTONState2 = 0;
 unsigned long prevTime = 0;  
 
 //OLED Screen setup
@@ -130,11 +122,17 @@ void setup() {
   sgtl5000_1.volume(0.8); 
   waveform1.frequency(0);
   waveform1.amplitude(0);
+  //Default Sinewave
+  waveform1.begin(WAVEFORM_SINE);
+  
+  
   //Adjust Mixer Set Audio Input to Zero and Tone to full
   mixer1.gain(0, 0);
   mixer1.gain(3, 1.0);
   mixer2.gain(0, 0);
   mixer2.gain(3, 1.0);
+  //Set custom 2b wave form
+  waveform1.arbitraryWaveform(myWaveform, 172.0);
 
 }
 
@@ -155,6 +153,9 @@ void loop() {
       break;
     case 4:
       menu4();
+      break;
+    case 5:
+      menu5();
       break;
       
   }

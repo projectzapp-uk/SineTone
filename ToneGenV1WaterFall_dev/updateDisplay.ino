@@ -61,7 +61,11 @@ void displaymenu(int entered, int selected ) {
 
     } else if (enc2 ==3){
       display.println("Triangle");
-    } else {
+    } else if (enc2== 4){
+      display.println("Custom 2b");
+
+    }
+    {
       display.println("Sine");
     }
     
@@ -94,6 +98,41 @@ void displaymenu(int entered, int selected ) {
     display.setTextSize(1);
     display.print("Channel B ");
     display.println(enc2);
+ 
+  } 
+    else if (entered == 5) {
+    display.clearDisplay();
+    display.setTextSize(1);
+    display.setTextColor(SSD1306_WHITE);
+    display.setCursor(0, 0);
+    display.println(F("WaveForm Default Conf"));
+    display.setTextColor(SSD1306_WHITE);
+    display.setTextSize(1);
+    display.print("WaveForm: ");
+    if (enc2 == 1){
+      display.println("Square Wave");
+
+    } else if (enc2 == 2){
+      display.println("SawTooth");
+
+    } else if (enc2 ==3){
+      display.println("Triangle");
+    } else if (enc2== 4){
+      display.println("Custom 2b");
+
+    }
+    else if (enc2== 5){
+      display.println("Sine");
+
+    }
+ 
+ 
+
+    
+    else
+    {
+      display.println("");
+    }
  
   } 
 

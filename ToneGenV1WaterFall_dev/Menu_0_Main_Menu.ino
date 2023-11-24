@@ -31,5 +31,15 @@ void mainMenu(){
               envelopeA.noteOff();
                
             }
+            //Enter config via encoder push button B
+          BUTTONState2 = digitalRead(4);
+          if (BUTTONState2 == LOW){
+              menuId = 5;
+              entered = 5;
+              
+               
+            }
+          
+          
   }
 }
