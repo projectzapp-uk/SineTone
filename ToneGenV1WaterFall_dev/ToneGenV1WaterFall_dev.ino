@@ -131,7 +131,7 @@ void setup() {
   mixer1.gain(3, 1.0);
   mixer2.gain(0, 0);
   mixer2.gain(3, 1.0);
-  //Set custom 2b wave form
+  //Set custom 2b wave formnet
   waveform1.arbitraryWaveform(myWaveform, 172.0);
 
 }
