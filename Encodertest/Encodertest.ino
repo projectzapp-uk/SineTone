@@ -11,7 +11,7 @@ String wavetext = "Sine";
 
 //Encoder setup. Range 0-10
 NewEncoder encoders[] = {
-  { 3, 2, 0, 20, 0, FULL_PULSE },
+  { 2, 3, 0, 20, 0, FULL_PULSE },
   
   { 6, 5, 0, 20, 0, FULL_PULSE }
   
