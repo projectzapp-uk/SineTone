@@ -4,7 +4,7 @@ void menu1(){
 
   int encAstart = 0;
   int encBstart = 0;
-  encA = 0;
+  encA = 5;
   encB = 5;
   //Audio Setup
   waveform1.frequency(encA);
@@ -21,7 +21,7 @@ void menu1(){
 
   //reset start value on encoder
   NewEncoder::EncoderState currentEncoderState;
-  encoders[0].newSettings(0,10,0,currentEncoderState);
+  encoders[0].newSettings(0,10,5,currentEncoderState);
   encoders[1].newSettings(0,10,5,currentEncoderState);
   
 
@@ -49,9 +49,10 @@ void menu1(){
         if (encAstart != encA || encBstart != encB){
           updateMenu1();
           encAstart = encA;
-          waveform1.frequency(map(encA,0,10,0,1000));
+          //waveform1.frequency(map(encA,0,10,0,1000));
+          freqTable(encA);
           encBstart = encB;
-          delaytime = map(encB,0,10,200,2000);
+          delaytime = map(encB,10,0,200,2000);
         }
       //Check for both Button presses
       BUTTONStateA = digitalRead(1);

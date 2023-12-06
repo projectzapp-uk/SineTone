@@ -4,17 +4,17 @@ void menu3(){
     
     int encAstart = 0;
     int encBstart = 0;
-    encA = 0;
+    encA = 5;
     encB = 0;
     //Update Screen
     updateMenu3();
     //Reset Encoder
     NewEncoder::EncoderState currentEncoderState;
-    encoders[0].newSettings(0,10,0,currentEncoderState);
+    encoders[0].newSettings(0,10,5,currentEncoderState);
     encoders[1].newSettings(0,10,0,currentEncoderState);
     delay(1000);
     //Base Audio
-    waveform1.frequency(encA);
+    freqTable(encA);
     waveform1.amplitude(0.8);
     envelopeA.noteOn();
 
@@ -25,7 +25,8 @@ void menu3(){
         updateMenu3();
         encAstart = encA;
         //Set the Frequency to map encoder values 0-10= 0-1K
-        waveform1.frequency(map(encA,0,10,0,1000));
+        //waveform1.frequency(map(encA,0,10,0,1000));
+        freqTable(encA);
         encBstart = encB;
 
       }
